@@ -15,4 +15,6 @@ urlpatterns =[
       path("create_pwd", views.create_pwd, name= "create_pwd"),
       path("retrieve", views.retrieve, name="retrieve"),
       path("decrypter/<int:id>", views.decrypter, name="decrypter"),
+      path("nlogin",views.nlogin,name="nlogin"),
+      path("blogin",views.blogin,name="blogin"),
 ]

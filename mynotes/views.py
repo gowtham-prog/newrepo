@@ -8,8 +8,9 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .models import *
 from cryptography.fernet import MultiFernet,Fernet
-import base64
-
+from django.conf import settings
+from django.core.mail import send_mail
+import random
 def encryption(str1,key):
     mf=Fernet(key)
     enctex = mf.encrypt(str1.encode())
@@ -109,7 +110,7 @@ def create_pwd(request):
         pwd.Password=encryption(psd,pwd.Key).decode('utf-8')
         pwd.Owner= request.user
         pwd.save()
-        return redirect(retrieve)
+        return redirect(nlogin)
     else:
         return render(request,"mynotes/create_p.html",{
             "list":Notes.objects.all()
@@ -139,3 +140,28 @@ def decrypter(request,id):
         })
     except Passwords.DoesNotExist:
         return HttpResponse("Unable to decrypt")
+@login_required(login_url='/login')
+def nlogin(request):
+    # ok=globe1
+    current=request.user
+    # print(ok)
+    global r
+    r=random.randrange(1,10000,3)
+    send_mail(
+        'hello',
+        str(r),
+        settings.EMAIL_HOST_USER,
+        [current.email, ],
+    )
+    return render(request,"mynotes/smail.html") 
+
+@login_required (login_url = '/login')
+def blogin(request):
+    if request.method=='POST':
+        # k=p()
+        passw=request.POST['fpass']
+        if passw==str(r):
+            return redirect(retrieve)
+        else:
+            return HttpResponse(r)
+    return render(request,"mynotes/homepage.html") 

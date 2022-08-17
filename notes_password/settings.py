@@ -27,8 +27,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT= 587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER= 'siri.tony333@gmail.com'
+EMAIL_HOST_PASSWORD='sxcd yywr iqgp lqvu'
+EMAIL_USE_SSL=False
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Application definition
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 600 #10*60 seconds for testing
+SESSION_SAVE_EVERY_REQUEST = True
 
 INSTALLED_APPS = [
     'mynotes',
